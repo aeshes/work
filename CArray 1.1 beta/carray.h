@@ -372,8 +372,8 @@ void CArray<TData>::erase(
 template <typename TData>
 void CArray<TData>::clear()
 {
-    /*for (auto it = begin(); it != end(); ++it)
-        it->TData::~TData();*/
+    for (auto it = begin(); it != end(); ++it)
+        it->TData::~TData();
     first_free = elements;
 }
 
