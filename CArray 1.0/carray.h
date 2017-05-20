@@ -13,95 +13,95 @@ public:
     typedef TData value_type;
     typedef size_t size_type;
 
-    // Конструктор по умолчанию
+    // Default constructor
     CArray();
 
-    // Конструктор копирования
+    // Copy constructor
     CArray(
         const CArray & _array
     );
 
-    //Деструктор
+    // Destructor
     ~CArray();
 
-    // Оператор присвоения копии
+    // Assignment operator
     CArray & operator=(
         CArray _other
     );
 
-    // Конструктор перемещения
+    // Move constructor
 	CArray(
 		CArray && _other
 	) noexcept;
 
-    // Оператор присваивания при перемещении
+    // Move assignment operator
 	CArray & operator=(
 		CArray && _other
     ) noexcept;
 
-    // Функция обмена
+    // Swap function
     void swap(
         CArray & _other
     );
 
-    // Добавить элемент в конец
+    // Add element at the end
     void push_back(
         const TData & _value
     );
 
-    // Добавить элемент в массив по заданному индексу
+    // Insert element at the index
     void insert(
         unsigned int _index,
         const TData & _value
     );
 
-	// Удалить элемент массива по заданному индексу
+	// Delete element at the index
     void erase(
         unsigned int _index
     );
 
-    // Очистить массив
+    // Clear array
     void clear();
 
-    // Вернуть реальный размер массива
+    // Return real size
     unsigned int size() const;
 
-    // Вернуть емкость массива
+    // Return capacity
     unsigned int capacity() const;
 
-    // Проверка отсутствия элементов в массиве
+    // Is the array empty
     bool empty() const;
 
-    // Оператор индексирования
+    // Subscript operator
     TData & operator[](
         unsigned int _index
     );
 
-    // Оператор индексирования константного объекта
+    // Constant subscript operattor
 	const TData & operator[](
 		unsigned int _index
     ) const;
 
-	// Итератор начала
+	// Iterator to the beginning
     TData * begin();
 
-    // Итератор начала константного объекта
+    // Const iterator to the beginning
     const TData * begin() const;
 
-    // Итератор конца
+    // Iterator to the end
     TData * end();
 
-    // Итератор конца константного объекта
+    // Const iterator to the end
     const TData * end() const;
 
 protected:
-    TData * elements;            // Массив элементов
-    TData * first_free;          // Указатель на первый свободный элемент
-    TData * cap;                 // Указатель на первый "элемент" после конца массива
-    void free();                 // Освобождение ресурсов
-    void reallocate();           // Перераспределение памяти для увеличения размера массива
-    void check_and_realloc();    // Проверка необходимости увеличения размера массиве и вызов reallocate()
-    void check_index(            // Проверка допустимости значения индекса
+    TData * elements;            // Array of elements
+    TData * first_free;          // Pointer to the first free element
+    TData * cap;                 // Pointer to the first element after the end
+    void free();                 // Free resources
+    void reallocate();           // Reallocate memory to increase capacity
+    void check_and_realloc();    // Check if reallocate is needed
+    void check_index(            // Is index valid
         unsigned int _index,
         const std::string & _msg
     );
