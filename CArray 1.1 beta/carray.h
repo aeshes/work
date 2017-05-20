@@ -11,7 +11,7 @@ template <typename TData> class CArray;
 template <typename TData>
 class CArrayIterator
 {
-	template <typename TData>
+    template <typename TData>
     friend class CArray;
 
 private:
