@@ -11,7 +11,7 @@ template <typename TData> class CArray;
 template <typename TData>
 class CArrayIterator
 {
-	template <typename TData>
+    template <typename TData>
     friend class CArray;
 
 private:
@@ -108,7 +108,7 @@ public:
     typedef TData value_type;
     typedef size_t size_type;
     typedef CArrayIterator<TData> iterator;
-	typedef CArrayIterator<const TData> const_iterator;
+    typedef CArrayIterator<const TData> const_iterator;
 
     // Default constructor
     CArray();
@@ -334,9 +334,9 @@ void CArray<TData>::push_back(
     *first_free++ = _value;
 }
 
-// Предложение: возвращать удаляемый элемент пользователю массива,
-// чтобы он сам решал, когда разрушить элемент. Контейнер хранит объекты
-// и не должен их уничтожать.
+// ГЏГ°ГҐГ¤Г«Г®Г¦ГҐГ­ГЁГҐ: ГўГ®Г§ГўГ°Г Г№Г ГІГј ГіГ¤Г Г«ГїГҐГ¬Г»Г© ГЅГ«ГҐГ¬ГҐГ­ГІ ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гѕ Г¬Г Г±Г±ГЁГўГ ,
+// Г·ГІГ®ГЎГ» Г®Г­ Г±Г Г¬ Г°ГҐГёГ Г«, ГЄГ®ГЈГ¤Г  Г°Г Г§Г°ГіГёГЁГІГј ГЅГ«ГҐГ¬ГҐГ­ГІ. ГЉГ®Г­ГІГҐГ©Г­ГҐГ° ГµГ°Г Г­ГЁГІ Г®ГЎГєГҐГЄГІГ»
+// ГЁ Г­ГҐ Г¤Г®Г«Г¦ГҐГ­ ГЁГµ ГіГ­ГЁГ·ГІГ®Г¦Г ГІГј.
 template <typename TData>
 void CArray<TData>::insert(
     unsigned int _index,
@@ -372,8 +372,8 @@ void CArray<TData>::erase(
 template <typename TData>
 void CArray<TData>::clear()
 {
-    /*for (auto it = begin(); it != end(); ++it)
-        it->TData::~TData();*/
+    for (auto it = begin(); it != end(); ++it)
+        it->TData::~TData();
     first_free = elements;
 }
 
