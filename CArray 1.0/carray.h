@@ -114,7 +114,6 @@ CArray<TData>::CArray()
 template <typename TData>
 CArray<TData>::~CArray()
 {
-    clear();
     free();
 }
 
