@@ -2,10 +2,9 @@
 #include <QStringList>
 #include <QtSql>
 
-#include <iostream>
-
 #include "db.h"
 #include "employee.h"
+#include "salary.h"
 
 
 
@@ -15,14 +14,12 @@ int main(int argc, char *argv[])
 
     const DBConnection& conn = DBConnection::instance();
 
-    QStringList lst = conn.get().tables();
-    foreach(QString str, lst)
-    {
-        qDebug() << str;
-    }
+    Dispatcher dispatcher;
 
-    employee e(2);
+    Employee e(5);
     e.debug();
+
+    qDebug() << "Salary: "<< e.salary(dispatcher);
 
     return a.exec();
 }

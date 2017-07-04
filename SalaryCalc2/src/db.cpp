@@ -1,6 +1,6 @@
 #include "db.h"
 
-const QString DEFAULT_DB_NAME("data_v2.db");
+const QString DEFAULT_DB_NAME("data.db");
 
 
 DBConnection::DBConnection()

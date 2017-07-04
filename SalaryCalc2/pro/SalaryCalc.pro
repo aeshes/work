@@ -11,8 +11,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     db.cpp \
-    employee.cpp
+    employee.cpp \
+    salary.cpp
 
 HEADERS += \
     db.h \
-    employee.h
+    employee.h \
+    salary.h
