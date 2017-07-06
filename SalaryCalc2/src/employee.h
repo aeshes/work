@@ -16,7 +16,6 @@ class AbstractDispatcher;
 class AbstractEmployee
 {
 public:
-    AbstractEmployee(int id);
     virtual ~AbstractEmployee() = default;
 
     virtual double salary(AbstractDispatcher& dispatcher) = 0;
@@ -29,6 +28,16 @@ protected:
     double   base_rate;
     int          work_exp;
 
+    AbstractEmployee() = default;
+    AbstractEmployee(int id);
+    AbstractEmployee(
+            int id,
+            QString fname,
+            QString lname,
+            QDate hired,
+            double rate,
+            int exp);
+
     void init(int id);
     void init_work_exp(int id);
 };
@@ -39,6 +48,8 @@ class Employee : public AbstractEmployee
 public:
     Employee() = default;
     Employee(int id);
+    Employee(int a, QString b, QString c, QDate d, double e, int f)
+        : AbstractEmployee(a, b, c, d, e, f) {}
 
     double salary(AbstractDispatcher& dispatcher) override;
     void debug();

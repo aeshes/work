@@ -5,6 +5,7 @@
 #include "db.h"
 #include "employee.h"
 #include "salary.h"
+#include "repository.h"
 
 
 
@@ -12,14 +13,19 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    const DBConnection& conn = DBConnection::instance();
+    DBConnection::connect();
+    EmployeeDAO dao;
+
+    EmployeeRepository repository;
 
     Dispatcher dispatcher;
 
-    Employee e(5);
+    Employee e = repository.select(5);
     e.debug();
 
     qDebug() << "Salary: "<< e.salary(dispatcher);
+
+    qDebug() << dao.selectWorkExperience(5);
 
     return a.exec();
 }

@@ -7,6 +7,19 @@ AbstractEmployee::AbstractEmployee(int id)
     init_work_exp(id);
 }
 
+AbstractEmployee::AbstractEmployee
+(
+        int         id,
+        QString fname,
+        QString lname,
+        QDate   hired,
+        double  rate,
+        int         exp
+)
+    : id(id), firstname(fname), lastname(lname),
+      hire_date(hired), base_rate(rate), work_exp(exp)
+{}
+
 void AbstractEmployee::init(int id)
 {
     QSqlQuery query;

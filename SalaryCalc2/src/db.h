@@ -11,7 +11,7 @@ class DBConnection
     static QSqlDatabase db;
 
 public:
-    static const DBConnection& instance()
+    static const DBConnection& connect()
     {
         static DBConnection inst;
         return inst;
