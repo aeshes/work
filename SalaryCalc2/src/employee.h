@@ -6,10 +6,25 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlError>
+#include <QVariant>
 #include <QDebug>
 
 #include "salary.h"
 
+
+template <typename ReturnType>
+ReturnType get(const QString &field, int id)
+{
+    QSqlQuery query;
+    QString sql = "SELECT " + field + " FROM employee WHERE id = :id";
+
+    query.prepare(sql);
+    query.bindValue(":id", QVariant(id));
+    query.exec();
+    query.next();
+
+    return qvariant_cast<ReturnType>(query.value(0));
+}
 
 class AbstractDispatcher;
 
@@ -21,22 +36,22 @@ public:
     virtual double salary(AbstractDispatcher& dispatcher) = 0;
 
 protected:
-    int          id;
+    int      id;
     QString  firstname;
     QString  lastname;
     QDate    hire_date;
     double   base_rate;
-    int          work_exp;
+    int      work_exp;
 
     AbstractEmployee() = default;
     AbstractEmployee(int id);
     AbstractEmployee(
-            int id,
+            int     id,
             QString fname,
             QString lname,
-            QDate hired,
-            double rate,
-            int exp);
+            QDate   hired,
+            double  rate,
+            int     exp);
 
     void init(int id);
     void init_work_exp(int id);
@@ -55,7 +70,7 @@ public:
     void debug();
 
 private:
-    static constexpr double exp_coeff          = 0.03;
+    static constexpr double exp_coeff       = 0.03;
     static constexpr double extra_pay_limit = 0.3;
 };
 
@@ -68,9 +83,9 @@ public:
     double salary(AbstractDispatcher& dispatcher) override;
 
 private:
-    static constexpr double exp_coeff          = 0.03;
+    static constexpr double exp_coeff       = 0.03;
     static constexpr double extra_pay_limit = 0.4;
-    static constexpr double emp_coeff         = 0.005;
+    static constexpr double emp_coeff       = 0.005;
 };
 
 class Sales : public AbstractEmployee
