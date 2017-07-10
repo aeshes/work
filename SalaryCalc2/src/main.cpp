@@ -2,11 +2,12 @@
 #include <QStringList>
 #include <QtSql>
 
+#include <iostream>
+
 #include "db.h"
 #include "employee.h"
 #include "salary.h"
 #include "repository.h"
-
 
 
 int main(int argc, char *argv[])
@@ -14,18 +15,13 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     DBConnection::connect();
-    EmployeeDAO dao;
-
+    Dispatcher dispatcher;
     EmployeeRepository repository;
 
-    Dispatcher dispatcher;
-
-    Employee e = repository.select(5);
+    Employee e = repository.select(1);
     e.debug();
 
-    qDebug() << "Salary: "<< e.salary(dispatcher);
-
-    qDebug() << dao.selectWorkExperience(5);
+    update(1, 17);
 
     return a.exec();
 }

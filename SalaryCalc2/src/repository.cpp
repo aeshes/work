@@ -34,7 +34,7 @@ Employee EmployeeRepository::select(int id)
     EmployeeDAO dao;
 
     QString fname = get<QString>("firstname", id);
-    QString lname = get<QString>("lastname", id);
+    QString lname = get<QString>("lastname",  id);
     QDate   hired = get<QDate>  ("hire_date", id);
     double  rate  = get<double> ("base_rate", id);
     int     exp   = dao.selectWorkExperience(id);

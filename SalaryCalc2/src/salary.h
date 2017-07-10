@@ -14,8 +14,8 @@ class AbstractDispatcher
 {
 public:
     virtual double dispatch(Employee&) = 0;
-    virtual double dispatch(Manager&)   = 0;
-    virtual double dispatch(Sales&)        = 0;
+    virtual double dispatch(Manager&)  = 0;
+    virtual double dispatch(Sales&)    = 0;
 };
 
 class Dispatcher : public AbstractDispatcher
