@@ -47,3 +47,29 @@ INSERT INTO position(employee_id, department_id) VALUES
     (4, 2),
     (5, 3);
 COMMIT;
+
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS career
+(
+    employee_id INTEGER NOT NULL,
+    position    INTEGER,
+    change_date DATE NOT NULL,
+
+    FOREIGN KEY(employee_id) REFERENCES employee(id),
+    FOREIGN KEY(position)    REFERENCES department(id)
+);
+
+INSERT INTO career(employee_id, position, change_date) VALUES
+    (SELECT id, position, hire_date FROM employee)); 
+COMMIT;
+
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS base_rate_history
+(
+    position    INTEGER NOT NULL,
+    base_rate   FLOAT   NOT NULL,
+    change_date DATE    NOT NULL,
+
+    FOREIGN KEY(position) REFERENCES department(id)
+);
+COMMIT;

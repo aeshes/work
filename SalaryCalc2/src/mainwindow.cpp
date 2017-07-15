@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setupPositionModel(QStringList() << trUtf8("Position"));
+    setupPositionModel(QStringList()    << trUtf8("Position"));
     setupEmployeeModel(QStringList() << trUtf8("id")
                                                              << trUtf8("Имя")
                                                              << trUtf8("Фамилия")
@@ -14,6 +14,13 @@ MainWindow::MainWindow(QWidget *parent)
                                                              << trUtf8("Дата приема")
                                                              << trUtf8("Должность"));
     createUI();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+    delete modelEmployee;
+    delete modelPosition;
 }
 
 void MainWindow::setupPositionModel(const QStringList & headers)
@@ -42,7 +49,24 @@ void MainWindow::createUI()
 {
     ui->tableViewPosition->setModel(modelPosition);
     ui->tableViewPosition->resizeColumnsToContents();
+    ui->tableViewPosition->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     ui->tableView->setModel(modelEmployee);
     ui->tableView->setColumnHidden(0, true);
+
+    connect(ui->tableViewPosition, &QTableView::activated,
+                  this, &MainWindow::updateEmployeeModel);
+}
+
+void MainWindow::updateEmployeeModel(const QModelIndex &index)
+{
+    qDebug() << index.model()->data(index, Qt::DisplayRole).toString();
+   QItemSelectionModel *selectionModel = ui->tableViewPosition->selectionModel();
+
+   int position = 0;
+   if (selectionModel->hasSelection())
+   {
+       position = selectionModel->selectedRows().first().row();
+   }
+    modelEmployee->setQuery("SELECT * FROM employee WHERE position = " + QString::number(position + 1));
 }
