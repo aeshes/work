@@ -23,6 +23,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
 private:
     Ui::MainWindow              *ui;
@@ -33,6 +34,9 @@ private:
     void setupPositionModel(const QStringList & headers);
     void setupEmployeeModel(const QStringList & headers);
     void createUI();
+
+public slots:
+    void updateEmployeeModel(const QModelIndex & index);
 };
 
 

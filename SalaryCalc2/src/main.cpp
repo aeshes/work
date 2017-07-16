@@ -2,8 +2,6 @@
 #include <QStringList>
 #include <QtSql>
 
-#include <iostream>
-
 #include "db.h"
 #include "employee.h"
 #include "salary.h"
