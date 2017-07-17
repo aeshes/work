@@ -6,6 +6,8 @@
 #include <QTableView>
 #include <QSqlQueryModel>
 #include <QSqlError>
+#include <QSqlRecord>
+#include <QSqlField>
 #include <QDebug>
 #include <QVBoxLayout>
 #include <QString>

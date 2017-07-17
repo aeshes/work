@@ -6,7 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setupPositionModel(QStringList()    << trUtf8("Position"));
+    setupPositionModel(QStringList()    << trUtf8("Id")
+                                                             << trUtf8("Position"));
     setupEmployeeModel(QStringList() << trUtf8("id")
                                                              << trUtf8("Имя")
                                                              << trUtf8("Фамилия")
@@ -26,7 +27,7 @@ MainWindow::~MainWindow()
 void MainWindow::setupPositionModel(const QStringList & headers)
 {
     modelPosition = new QSqlQueryModel(this);
-    modelPosition->setQuery("SELECT name FROM department");
+    modelPosition->setQuery("SELECT id, name FROM department");
 
     for (int i = 0; i < modelPosition->columnCount(); ++i)
     {
@@ -49,7 +50,8 @@ void MainWindow::createUI()
 {
     ui->tableViewPosition->setModel(modelPosition);
     ui->tableViewPosition->resizeColumnsToContents();
-    ui->tableViewPosition->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->tableViewPosition->setColumnHidden(0, true);    // Hide ID field
+    ui->tableViewPosition->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
     ui->tableView->setModel(modelEmployee);
     ui->tableView->setColumnHidden(0, true);
@@ -58,15 +60,11 @@ void MainWindow::createUI()
                   this, &MainWindow::updateEmployeeModel);
 }
 
-void MainWindow::updateEmployeeModel(const QModelIndex &index)
+void MainWindow::updateEmployeeModel(const QModelIndex & index)
 {
-    qDebug() << index.model()->data(index, Qt::DisplayRole).toString();
-   QItemSelectionModel *selectionModel = ui->tableViewPosition->selectionModel();
+   QSqlRecord record = modelPosition->record(index.row());
+   QSqlField     field     = record.field(0);
+   QString         id        = field.value().toString();
 
-   int position = 0;
-   if (selectionModel->hasSelection())
-   {
-       position = selectionModel->selectedRows().first().row();
-   }
-    modelEmployee->setQuery("SELECT * FROM employee WHERE position = " + QString::number(position + 1));
+    modelEmployee->setQuery("SELECT * FROM employee WHERE position = " + id);
 }
