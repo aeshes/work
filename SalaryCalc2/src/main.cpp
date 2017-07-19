@@ -34,6 +34,9 @@ int main(int argc, char *argv[])
     Employee e = repository.select(1);
     e.debug();
 
+    Manager m(4);
+    qDebug() << "Manager salary: "  <<m.salary(dispatcher);
+
     //update(1, 17);
 
     //f();

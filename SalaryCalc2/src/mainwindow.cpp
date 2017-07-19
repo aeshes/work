@@ -63,7 +63,7 @@ void MainWindow::createUI()
 void MainWindow::updateEmployeeModel(const QModelIndex & index)
 {
    QSqlRecord record = modelPosition->record(index.row());
-   QSqlField     field     = record.field(0);
+   QSqlField     field     = record.field(0);   /* Hidden ID field */
    QString         id        = field.value().toString();
 
     modelEmployee->setQuery("SELECT * FROM employee WHERE position = " + id);

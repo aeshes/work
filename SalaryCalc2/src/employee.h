@@ -8,6 +8,7 @@
 #include <QSqlError>
 #include <QVariant>
 #include <QDebug>
+#include <QList>
 
 #include "salary.h"
 
@@ -46,12 +47,12 @@ protected:
     AbstractEmployee() = default;
     AbstractEmployee(int id);
     AbstractEmployee(
-            int     id,
+            int          id,
             QString fname,
             QString lname,
             QDate   hired,
             double  rate,
-            int     exp);
+            int         exp);
 
     void init(int id);
     void init_work_exp(int id);
@@ -66,7 +67,7 @@ public:
     Employee(int a, QString b, QString c, QDate d, double e, int f)
         : AbstractEmployee(a, b, c, d, e, f) {}
 
-    double salary(AbstractDispatcher& dispatcher) override;
+    double salary(AbstractDispatcher & dispatcher) override;
     void debug();
 
 private:
@@ -74,13 +75,31 @@ private:
     static constexpr double extra_pay_limit = 0.3;
 };
 
+class LazyEmployeeList
+{
+    QList<Employee> lazy;
+
+public:
+    LazyEmployeeList(int id);
+    QList<Employee>::iterator begin();
+    QList<Employee>::iterator end();
+
+private:
+    bool loaded;
+    int _id;
+    void load_from_db(int id);
+};
+
 class Manager : public AbstractEmployee
 {
+    friend class Dispatcher;
+    LazyEmployeeList employees;
+
 public:
     Manager() = default;
     Manager(int id);
 
-    double salary(AbstractDispatcher& dispatcher) override;
+    double salary(AbstractDispatcher & dispatcher) override;
 
 private:
     static constexpr double exp_coeff       = 0.03;
@@ -94,7 +113,7 @@ public:
     Sales() = default;
     Sales(int id);
 
-    double salary(AbstractDispatcher& dispatcher) override;
+    double salary(AbstractDispatcher & dispatcher) override;
 };
 
 #endif // EMPLOYEE_H

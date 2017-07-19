@@ -68,17 +68,64 @@ Employee::Employee(int id)
     : AbstractEmployee(id)
 {}
 
-double Employee::salary(AbstractDispatcher &dispatcher)
+LazyEmployeeList::LazyEmployeeList(int id)
+    : _id(id), loaded(false)
+{
+
+}
+
+void LazyEmployeeList::load_from_db(int id)
+{
+    QString sql = "SELECT id FROM employee WHERE superior = " + QString::number(id);
+    QSqlQuery query(sql);
+    while (query.next())
+    {
+        int emp_id = query.value(0).toInt();
+        lazy.push_back(Employee(emp_id));
+    }
+}
+
+QList<Employee>::iterator LazyEmployeeList::begin()
+{
+    if (!loaded)
+    {
+        load_from_db(_id);
+        loaded = true;
+    }
+    return lazy.begin();
+}
+
+QList<Employee>::iterator LazyEmployeeList::end()
+{
+    if (!loaded)
+    {
+        load_from_db(_id);
+        loaded = true;
+    }
+    return lazy.end();
+}
+
+Manager::Manager(int id)
+    : AbstractEmployee(id), employees(LazyEmployeeList(id))
+{
+    for (auto it = employees.begin(); it != employees.end(); ++it)
+    {
+        Dispatcher dispatcher;
+        qDebug() << it->salary(dispatcher);
+    }
+}
+
+double Employee::salary(AbstractDispatcher & dispatcher)
 {
     return dispatcher.dispatch(*this);
 }
 
-double Manager::salary(AbstractDispatcher &dispatcher)
+double Manager::salary(AbstractDispatcher & dispatcher)
 {
     return dispatcher.dispatch(*this);
 }
 
-double Sales::salary(AbstractDispatcher &dispatcher)
+double Sales::salary(AbstractDispatcher & dispatcher)
 {
     return dispatcher.dispatch(*this);
 }
