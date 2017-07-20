@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     Manager m(4);
     qDebug() << "Manager salary: "  <<m.salary(dispatcher);
 
-    //update(1, 17);
+    qDebug() << "base_rate = " << get<double>("base_rate", 1);
 
     //f();
 

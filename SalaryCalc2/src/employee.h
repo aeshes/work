@@ -35,6 +35,11 @@ public:
     virtual ~AbstractEmployee() = default;
 
     virtual double salary(AbstractDispatcher& dispatcher) = 0;
+    virtual double getBaseRate() const = 0;
+    virtual double getWorkExperience() const = 0;
+    virtual double getManagementCoeff() const = 0;
+    virtual double getExtraPayLimit() const = 0;
+    virtual double getExperienceCoeff() const = 0;
 
 protected:
     int      id;
@@ -54,8 +59,13 @@ protected:
             double  rate,
             int         exp);
 
+    virtual double onGetBaseRate();
+    virtual int        onGetWorkExperience();
+    virtual double onGetManagementCoeff();
+    virtual double onGetExtraPayLimit();
+    virtual double onGetExperienceCoeff();
     void init(int id);
-    void init_work_exp(int id);
+    void initWorkExp(int id);
 };
 
 class Employee : public AbstractEmployee
@@ -69,6 +79,11 @@ public:
 
     double salary(AbstractDispatcher & dispatcher) override;
     void debug();
+    double getBaseRate() const override;
+    double getWorkExperience() const override;
+    double getManagementCoeff() const override;
+    double getExtraPayLimit() const override;
+    double getExperienceCoeff() const override;
 
 private:
     static constexpr double exp_coeff       = 0.03;
@@ -100,6 +115,11 @@ public:
     Manager(int id);
 
     double salary(AbstractDispatcher & dispatcher) override;
+    double getBaseRate() const override;
+    double getWorkExperience() const override;
+    double getManagementCoeff() const override;
+    double getExtraPayLimit() const override;
+    double getExperienceCoeff() const override;
 
 private:
     static constexpr double exp_coeff       = 0.03;
@@ -114,6 +134,11 @@ public:
     Sales(int id);
 
     double salary(AbstractDispatcher & dispatcher) override;
+    double getBaseRate() const override;
+    double getWorkExperience() const override;
+    double getManagementCoeff() const override;
+    double getExtraPayLimit() const override;
+    double getExperienceCoeff() const override;
 };
 
 #endif // EMPLOYEE_H

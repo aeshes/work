@@ -4,7 +4,7 @@ AbstractEmployee::AbstractEmployee(int id)
     : id(id)
 {
     init(id);
-    init_work_exp(id);
+    initWorkExp(id);
 }
 
 AbstractEmployee::AbstractEmployee
@@ -19,6 +19,38 @@ AbstractEmployee::AbstractEmployee
     : id(id), firstname(fname), lastname(lname),
       hire_date(hired), base_rate(rate), work_exp(exp)
 {}
+
+double AbstractEmployee::onGetBaseRate()
+{
+    return get<double>("base_rate", id);
+}
+
+int AbstractEmployee::onGetWorkExperience()
+{
+    QString sql = "SELECT DATE('now') - (SELECT hire_date FROM employee WHERE id = "
+                + QString::number(id) + ")";
+    QSqlQuery query(sql);
+    if (query.next())
+    {
+        return query.value(0).toInt();
+    }
+    return 0;
+}
+
+double AbstractEmployee::onGetManagementCoeff()
+{
+    return 0;
+}
+
+double AbstractEmployee::onGetExtraPayLimit()
+{
+    return 0;
+}
+
+double AbstractEmployee::onGetExperienceCoeff()
+{
+    return 0;
+}
 
 void AbstractEmployee::init(int id)
 {
@@ -43,7 +75,7 @@ void AbstractEmployee::init(int id)
     }
 }
 
-void AbstractEmployee::init_work_exp(int id)
+void AbstractEmployee::initWorkExp(int id)
 {
     QSqlQuery query;
     QString sql = "SELECT DATE('now') - (SELECT hire_date FROM employee WHERE id = "
@@ -67,6 +99,31 @@ void Employee::debug()
 Employee::Employee(int id)
     : AbstractEmployee(id)
 {}
+
+double Employee::getBaseRate() const
+{
+    return base_rate;
+}
+
+double Employee::getWorkExperience() const
+{
+    return work_exp;
+}
+
+double Employee::getManagementCoeff() const
+{
+    return 0;
+}
+
+double Employee::getExtraPayLimit() const
+{
+    return extra_pay_limit;
+}
+
+double Employee::getExperienceCoeff() const
+{
+    return exp_coeff;
+}
 
 LazyEmployeeList::LazyEmployeeList(int id)
     : _id(id), loaded(false)
@@ -113,6 +170,56 @@ Manager::Manager(int id)
         Dispatcher dispatcher;
         qDebug() << it->salary(dispatcher);
     }
+}
+
+double Manager::getBaseRate() const
+{
+    return base_rate;
+}
+
+double Manager::getWorkExperience() const
+{
+    return work_exp;
+}
+
+double Manager::getManagementCoeff() const
+{
+    return emp_coeff;
+}
+
+double Manager::getExtraPayLimit() const
+{
+    return extra_pay_limit;
+}
+
+double Manager::getExperienceCoeff() const
+{
+    return exp_coeff;
+}
+
+double Sales::getBaseRate() const
+{
+    return base_rate;
+}
+
+double Sales::getWorkExperience() const
+{
+    return work_exp;
+}
+
+double Sales::getManagementCoeff() const
+{
+    return 0;
+}
+
+double Sales::getExtraPayLimit() const
+{
+    return 0;
+}
+
+double Sales::getExperienceCoeff() const
+{
+    return 0;
 }
 
 double Employee::salary(AbstractDispatcher & dispatcher)
