@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "dialogeditrecord.h"
+#include "ui_dialogeditrecord.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -52,6 +54,14 @@ void MainWindow::createUI()
     ui->tableViewPosition->resizeColumnsToContents();
     ui->tableViewPosition->setColumnHidden(0, true);    // Hide ID field
     ui->tableViewPosition->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    // Set context menu
+    ui->tableView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)),
+                  this, SLOT(slotCustomMenuRequested(QPoint)));
 
     ui->tableView->setModel(modelEmployee);
     ui->tableView->setColumnHidden(0, true);
@@ -67,4 +77,42 @@ void MainWindow::updateEmployeeModel(const QModelIndex & index)
    QString         id        = field.value().toString();
 
     modelEmployee->setQuery("SELECT * FROM employee WHERE position = " + id);
+}
+
+void MainWindow::slotUpdateModels()
+{
+
+}
+
+void MainWindow::slotCustomMenuRequested(QPoint pos)
+{
+    QMenu*  menu = new QMenu(this);
+    QAction* editEntry  = new QAction(trUtf8("Edit"));
+    QAction* calcSalary= new QAction(trUtf8("Salary"));
+
+    connect(editEntry, SIGNAL(triggered()),
+                  this, SLOT(slotEditRecord()));
+    connect(calcSalary, SIGNAL(triggered()),
+                  this, SLOT(slotCalcSalary()));
+
+    menu->addAction(editEntry);
+    menu->addAction(calcSalary);
+
+    menu->popup(ui->tableView->viewport()->mapToGlobal(pos));
+}
+
+void MainWindow::slotEditRecord()
+{
+    DialogEditRecord* dialog = new DialogEditRecord(ui->tableView->selectionModel()->currentIndex().row());
+
+    connect(dialog, SIGNAL(signalReady()),
+                  this, SLOT(slotUpdateModels()));
+
+    dialog->setWindowTitle("Edit");
+    dialog->exec();
+}
+
+void MainWindow::slotCalcSalary()
+{
+
 }

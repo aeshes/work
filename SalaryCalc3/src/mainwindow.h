@@ -12,6 +12,8 @@
 #include <QVBoxLayout>
 #include <QString>
 #include <QStringList>
+#include <QMenu>
+#include <QAction>
 
 namespace Ui
 {
@@ -37,6 +39,12 @@ private:
 
 public slots:
     void updateEmployeeModel(const QModelIndex & index);
+
+private slots:
+    void slotUpdateModels();
+    void slotCustomMenuRequested(QPoint pos);
+    void slotEditRecord();
+    void slotCalcSalary();
 };
 
 

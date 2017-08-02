@@ -64,12 +64,12 @@ std::shared_ptr<EmployeeType> employee_repository<EmployeeType>::select(int id)
     {
         if (check_position(id))
         {
-        odb::transaction t(db->begin());
+            odb::transaction t(db->begin());
 
-        std::shared_ptr<EmployeeType> emp(db->query_one<EmployeeType>(query::id == id));
+            std::shared_ptr<EmployeeType> emp(db->query_one<EmployeeType>(query::id == id));
 
-        t.commit();
-        return emp;
+            t.commit();
+            return emp;
         }
         return nullptr;
     }
