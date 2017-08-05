@@ -39,22 +39,35 @@ public:
     std::string name;
 };
 
-
+#pragma db object
 class abstract_employee
 {
+    friend class odb::access;
+
 public:
     virtual ~abstract_employee() {}
 
     virtual double salary(AbstractDispatcher& dispatcher) = 0;
-    virtual double getBaseRate() const = 0;
-    virtual double getWorkExperience() const = 0;
-    virtual double getManagementCoeff() const = 0;
-    virtual double getExtraPayLimit() const = 0;
-    virtual double getExperienceCoeff() const = 0;
+    virtual double getBaseRate() const;
+    virtual int    getWorkExperience() const;
+    virtual double getManagementCoeff() const;
+    virtual double getExtraPayLimit() const;
+    virtual double getExperienceCoeff() const;
+
+    virtual std::string name() const;
 
 protected:
     abstract_employee() = default;
+
+private:
+    std::size_t id;
+    std::string firstname;
+    std::string lastname;
+    std::time_t hire_date;
+    double base_rate;
 };
+
+#pragma db member(abstract_employee::id) id auto
 
 
 class employee : public abstract_employee
@@ -68,28 +81,11 @@ public:
 public:
     employee() = default;
 
-    friend std::ostream& operator<<(std::ostream& os, const employee& e);
-
     double salary(AbstractDispatcher & dispatcher) override;
-    double getBaseRate() const override;
-    double getWorkExperience() const override;
-    double getManagementCoeff() const override;
-    double getExtraPayLimit() const override;
-    double getExperienceCoeff() const override;
-    std::string name() const { return firstname; }
-
-private:
-    std::size_t id;
-    std::string firstname;
-    std::string lastname;
-    std::time_t hire_date;
-    double base_rate;
 };
 
 #pragma db object(employee)
-#pragma db member(employee::id) id
-
-std::ostream& operator<<(std::ostream& os, const employee& e);
+#pragma db member(employee::id) id auto
 
 
 class manager : public abstract_employee
@@ -104,19 +100,6 @@ public:
     manager() = default;
 
     double salary(AbstractDispatcher & dispatcher) override;
-    double getBaseRate() const override;
-    double getWorkExperience() const override;
-    double getManagementCoeff() const override;
-    double getExtraPayLimit() const override;
-    double getExperienceCoeff() const override;
-    std::string name() const { return firstname; }
-
-private:
-    std::size_t id;
-    std::string firstname;
-    std::string lastname;
-    std::time_t hire_date;
-    double base_rate;
 };
 
 #pragma db object(manager)
@@ -133,19 +116,6 @@ public:
     sales() = default;
 
     double salary(AbstractDispatcher & dispatcher) override;
-    double getBaseRate() const override;
-    double getWorkExperience() const override;
-    double getManagementCoeff() const override;
-    double getExtraPayLimit() const override;
-    double getExperienceCoeff() const override;
-    std::string name() const { return firstname; }
-
-private:
-    std::size_t id;
-    std::string firstname;
-    std::string lastname;
-    std::time_t hire_date;
-    double base_rate;
 };
 
 #pragma db object(sales)

@@ -1,87 +1,35 @@
 #include "employee.hxx"
 
-std::ostream& operator<<(std::ostream& os, const employee& e)
-{
-    os << e.firstname << std::endl;
-    os << e.lastname << std::endl;
-}
-
-double employee::getBaseRate() const
+double abstract_employee::getBaseRate() const
 {
     return base_rate;
 }
 
-double employee::getWorkExperience() const
+int abstract_employee::getWorkExperience() const
 {
     return 0;
 }
 
-double employee::getManagementCoeff() const
+double abstract_employee::getManagementCoeff() const
 {
     return 0;
 }
 
-double employee::getExtraPayLimit() const
+double abstract_employee::getExtraPayLimit() const
 {
     return 0;
 }
 
-double employee::getExperienceCoeff() const
+double abstract_employee::getExperienceCoeff() const
 {
     return 0;
 }
 
-
-
-double manager::getBaseRate() const
+std::string abstract_employee::name() const
 {
-    return base_rate;
+    return firstname + " " + lastname;
 }
 
-double manager::getWorkExperience() const
-{
-    return 0;
-}
-
-double manager::getManagementCoeff() const
-{
-    return 0;
-}
-
-double manager::getExtraPayLimit() const
-{
-    return 0;
-}
-
-double manager::getExperienceCoeff() const
-{
-    return 0;
-}
-
-double sales::getBaseRate() const
-{
-    return base_rate;
-}
-
-double sales::getWorkExperience() const
-{
-    return 0;
-}
-
-double sales::getManagementCoeff() const
-{
-    return 0;
-}
-
-double sales::getExtraPayLimit() const
-{
-    return 0;
-}
-
-double sales::getExperienceCoeff() const
-{
-    return 0;
-}
 
 double employee::salary(AbstractDispatcher & dispatcher)
 {
