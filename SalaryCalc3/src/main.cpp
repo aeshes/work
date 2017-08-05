@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
     std::shared_ptr<odb::database> db(new odb::sqlite::database("data.db"));
 
    employee_repository<employee> repository(db);
-   employee_repository<manager> man(db);
 
    auto e = repository.select(2);
    std::cout << e->name() << std::endl;

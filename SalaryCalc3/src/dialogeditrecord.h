@@ -2,6 +2,8 @@
 #define DIALOGEDITRECORD_H
 
 #include <QDialog>
+#include <QtSql>
+#include <QDataWidgetMapper>
 
 namespace Ui
 {
@@ -21,6 +23,13 @@ signals:
 
 private:
     Ui::DialogEditRecord *ui;
+    QSqlTableModel *model;
+    QDataWidgetMapper *mapper;
+
+private:
+    void setupModel();
+    void createUI();
+    void accept();
 };
 
 #endif // DIALOGEDITRECORD_H
