@@ -7,7 +7,7 @@ double abstract_employee::getBaseRate() const
 
 int abstract_employee::getWorkExperience() const
 {
-    return 0;
+    return DBProcedures::getWorkExperienceByID(id);
 }
 
 double abstract_employee::getManagementCoeff() const

@@ -23,3 +23,20 @@ void DBConnection::execute(QString sql)
 }
 
 QSqlDatabase DBConnection::db;
+
+
+DBProcedures::DBProcedures()
+{
+    // Connect to database before using this class
+}
+
+int DBProcedures::getWorkExperienceByID(int id)
+{
+    QSqlQuery q("SELECT DATE('now') - (SELECT hire_date FROM employee " \
+                " WHERE id = " + QString::number(id) + ")");
+    if (q.next())
+    {
+        return q.value(0).toInt();
+    }
+    return 0;
+}

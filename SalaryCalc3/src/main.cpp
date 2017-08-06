@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
 
    auto e = repository.select(2);
    std::cout << e->name() << std::endl;
+   std::cout << e->getWorkExperience() << std::endl;
 
     MainWindow window;
     window.show();

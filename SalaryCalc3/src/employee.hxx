@@ -1,6 +1,9 @@
 #ifndef EMPLOYEE_H
 #define EMPLOYEE_H
 
+#include <QString>
+#include <QtSql>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,6 +13,7 @@
 #include <odb/core.hxx>
 
 #include "salary.hxx"
+#include "db.hxx"
 
 
 class AbstractDispatcher;

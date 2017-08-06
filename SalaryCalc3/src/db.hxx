@@ -32,4 +32,13 @@ private:
     DBConnection& operator=(const DBConnection&);
 };
 
+class DBProcedures
+{
+public:
+    DBProcedures();
+
+public:
+    static int getWorkExperienceByID(int id);
+};
+
 #endif // DB_HXX
