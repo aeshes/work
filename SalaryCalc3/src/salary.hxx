@@ -6,24 +6,24 @@
 
 class AbstractDispatcher;
 
-class employee;
-class manager;
-class sales;
+class Employee;
+class Manager;
+class Sales;
 
 class AbstractDispatcher
 {
 public:
-    virtual double dispatch(employee&) = 0;
-    virtual double dispatch(manager&)  = 0;
-    virtual double dispatch(sales&)    = 0;
+    virtual double dispatch(Employee&) = 0;
+    virtual double dispatch(Manager&)  = 0;
+    virtual double dispatch(Sales&)    = 0;
 };
 
 class Dispatcher : public AbstractDispatcher
 {
 public:
-    double dispatch(employee& emp);
-    double dispatch(manager& man);
-    double dispatch(sales& sal);
+    double dispatch(Employee& emp);
+    double dispatch(Manager& man);
+    double dispatch(Sales& sal);
 };
 
 #endif // SALARY_H

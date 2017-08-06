@@ -23,11 +23,15 @@ int main(int argc, char *argv[])
 
     std::shared_ptr<odb::database> db(new odb::sqlite::database("data.db"));
 
-   employee_repository<employee> repository(db);
+   employee_repository<Employee> repository(db);
+   Dispatcher dispatcher;
 
    auto e = repository.select(2);
    std::cout << e->name() << std::endl;
    std::cout << e->getWorkExperience() << std::endl;
+   std::cout << e->getExtraPayLimit() << std::endl;
+   std::cout << e->getExperienceCoeff() << std::endl;
+   std::cout << e->salary(dispatcher) << std::endl;
 
     MainWindow window;
     window.show();

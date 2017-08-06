@@ -1,9 +1,6 @@
 #ifndef EMPLOYEE_H
 #define EMPLOYEE_H
 
-#include <QString>
-#include <QtSql>
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -13,12 +10,11 @@
 #include <odb/core.hxx>
 
 #include "salary.hxx"
-#include "db.hxx"
 
 
 class AbstractDispatcher;
 
-class abstract_employee;
+class AbstractEmployee;
 class department;
 
 #pragma db object no_id
@@ -44,26 +40,26 @@ public:
 };
 
 #pragma db object
-class abstract_employee
+class AbstractEmployee
 {
     friend class odb::access;
 
 public:
-    virtual ~abstract_employee() {}
+    virtual ~AbstractEmployee() {}
 
     virtual double salary(AbstractDispatcher& dispatcher) = 0;
     virtual double getBaseRate() const;
     virtual int    getWorkExperience() const;
-    virtual double getManagementCoeff() const;
-    virtual double getExtraPayLimit() const;
-    virtual double getExperienceCoeff() const;
+    virtual double getManagementCoeff() const = 0;
+    virtual double getExtraPayLimit() const = 0;
+    virtual double getExperienceCoeff() const = 0;
 
     virtual std::string name() const;
 
 protected:
-    abstract_employee() = default;
+    AbstractEmployee() = default;
 
-private:
+protected:
     std::size_t id;
     std::string firstname;
     std::string lastname;
@@ -71,10 +67,10 @@ private:
     double base_rate;
 };
 
-#pragma db member(abstract_employee::id) id auto
+#pragma db member(AbstractEmployee::id) id auto
 
 
-class employee : public abstract_employee
+class Employee : public AbstractEmployee
 {
     friend class Dispatcher;
     friend class odb::access;
@@ -83,16 +79,21 @@ public:
     enum { type = 1 };
 
 public:
-    employee() = default;
+    Employee() = default;
+
+    virtual int    getWorkExperience() const override;
+    virtual double getManagementCoeff() const override;
+    virtual double getExtraPayLimit() const override;
+    virtual double getExperienceCoeff() const override;
 
     double salary(AbstractDispatcher & dispatcher) override;
 };
 
-#pragma db object(employee)
-#pragma db member(employee::id) id auto
+#pragma db object(Employee)
+#pragma db member(Employee::id) id auto
 
 
-class manager : public abstract_employee
+class Manager : public AbstractEmployee
 {
     friend class Dispatcher;
     friend class odb::access;
@@ -101,15 +102,15 @@ public:
     enum { type = 2 };
 
 public:
-    manager() = default;
+    Manager() = default;
 
     double salary(AbstractDispatcher & dispatcher) override;
 };
 
-#pragma db object(manager)
-#pragma db member(manager::id) id
+#pragma db object(Manager)
+#pragma db member(Manager::id) id
 
-class sales : public abstract_employee
+class Sales : public AbstractEmployee
 {
     friend class odb::access;
 
@@ -117,12 +118,12 @@ public:
     enum { type = 3 };
 
 public:
-    sales() = default;
+    Sales() = default;
 
     double salary(AbstractDispatcher & dispatcher) override;
 };
 
-#pragma db object(sales)
-#pragma db member(sales::id) id
+#pragma db object(Sales)
+#pragma db member(Sales::id) id
 
 #endif // EMPLOYEE_H

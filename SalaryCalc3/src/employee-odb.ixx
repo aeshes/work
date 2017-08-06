@@ -61,19 +61,30 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (e);
   }
 
-  // employee
+  // AbstractEmployee
   //
 
   inline
-  access::object_traits< ::employee >::id_type
-  access::object_traits< ::employee >::
+  access::object_traits< ::AbstractEmployee >::id_type
+  access::object_traits< ::AbstractEmployee >::
   id (const object_type& o)
   {
     return o.id;
   }
 
+  // Employee
+  //
+
   inline
-  void access::object_traits< ::employee >::
+  access::object_traits< ::Employee >::id_type
+  access::object_traits< ::Employee >::
+  id (const object_type& o)
+  {
+    return object_traits< ::AbstractEmployee >::id (o);
+  }
+
+  inline
+  void access::object_traits< ::Employee >::
   callback (database& db, object_type& x, callback_event e)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -82,7 +93,7 @@ namespace odb
   }
 
   inline
-  void access::object_traits< ::employee >::
+  void access::object_traits< ::Employee >::
   callback (database& db, const object_type& x, callback_event e)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -90,62 +101,26 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (e);
   }
 
-  // manager
+  // Manager
   //
 
   inline
-  access::object_traits< ::manager >::id_type
-  access::object_traits< ::manager >::
+  access::object_traits< ::Manager >::id_type
+  access::object_traits< ::Manager >::
   id (const object_type& o)
   {
-    return o.id;
+    return object_traits< ::AbstractEmployee >::id (o);
   }
 
-  inline
-  void access::object_traits< ::manager >::
-  callback (database& db, object_type& x, callback_event e)
-  {
-    ODB_POTENTIALLY_UNUSED (db);
-    ODB_POTENTIALLY_UNUSED (x);
-    ODB_POTENTIALLY_UNUSED (e);
-  }
-
-  inline
-  void access::object_traits< ::manager >::
-  callback (database& db, const object_type& x, callback_event e)
-  {
-    ODB_POTENTIALLY_UNUSED (db);
-    ODB_POTENTIALLY_UNUSED (x);
-    ODB_POTENTIALLY_UNUSED (e);
-  }
-
-  // sales
+  // Sales
   //
 
   inline
-  access::object_traits< ::sales >::id_type
-  access::object_traits< ::sales >::
+  access::object_traits< ::Sales >::id_type
+  access::object_traits< ::Sales >::
   id (const object_type& o)
   {
-    return o.id;
-  }
-
-  inline
-  void access::object_traits< ::sales >::
-  callback (database& db, object_type& x, callback_event e)
-  {
-    ODB_POTENTIALLY_UNUSED (db);
-    ODB_POTENTIALLY_UNUSED (x);
-    ODB_POTENTIALLY_UNUSED (e);
-  }
-
-  inline
-  void access::object_traits< ::sales >::
-  callback (database& db, const object_type& x, callback_event e)
-  {
-    ODB_POTENTIALLY_UNUSED (db);
-    ODB_POTENTIALLY_UNUSED (x);
-    ODB_POTENTIALLY_UNUSED (e);
+    return object_traits< ::AbstractEmployee >::id (o);
   }
 }
 
@@ -176,11 +151,44 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (obj);
   }
 
-  // employee
+  // AbstractEmployee
+  //
+
+  // Employee
   //
 
   inline
-  void access::object_traits_impl< ::employee, id_sqlite >::
+  access::object_traits_impl< ::Employee, id_sqlite >::id_type
+  access::object_traits_impl< ::Employee, id_sqlite >::
+  id (const id_image_type& i)
+  {
+    return object_traits_impl< ::AbstractEmployee, id_sqlite >::id (i);
+  }
+
+  inline
+  access::object_traits_impl< ::Employee, id_sqlite >::id_type
+  access::object_traits_impl< ::Employee, id_sqlite >::
+  id (const image_type& i)
+  {
+    return object_traits_impl< ::AbstractEmployee, id_sqlite >::id (i);
+  }
+
+  inline
+  void access::object_traits_impl< ::Employee, id_sqlite >::
+  bind (sqlite::bind* b, id_image_type& i)
+  {
+    object_traits_impl< ::AbstractEmployee, id_sqlite >::bind (b, i);
+  }
+
+  inline
+  void access::object_traits_impl< ::Employee, id_sqlite >::
+  init (id_image_type& i, const id_type& id)
+  {
+    object_traits_impl< ::AbstractEmployee, id_sqlite >::init (i, id);
+  }
+
+  inline
+  void access::object_traits_impl< ::Employee, id_sqlite >::
   erase (database& db, const object_type& obj)
   {
     callback (db, obj, callback_event::pre_erase);
@@ -189,7 +197,7 @@ namespace odb
   }
 
   inline
-  void access::object_traits_impl< ::employee, id_sqlite >::
+  void access::object_traits_impl< ::Employee, id_sqlite >::
   load_ (statements_type& sts,
          object_type& obj,
          bool)
@@ -198,48 +206,70 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (obj);
   }
 
-  // manager
+  // Manager
   //
 
   inline
-  void access::object_traits_impl< ::manager, id_sqlite >::
-  erase (database& db, const object_type& obj)
+  access::object_traits_impl< ::Manager, id_sqlite >::id_type
+  access::object_traits_impl< ::Manager, id_sqlite >::
+  id (const id_image_type& i)
   {
-    callback (db, obj, callback_event::pre_erase);
-    erase (db, id (obj));
-    callback (db, obj, callback_event::post_erase);
+    return object_traits_impl< ::AbstractEmployee, id_sqlite >::id (i);
   }
 
   inline
-  void access::object_traits_impl< ::manager, id_sqlite >::
-  load_ (statements_type& sts,
-         object_type& obj,
-         bool)
+  access::object_traits_impl< ::Manager, id_sqlite >::id_type
+  access::object_traits_impl< ::Manager, id_sqlite >::
+  id (const image_type& i)
   {
-    ODB_POTENTIALLY_UNUSED (sts);
-    ODB_POTENTIALLY_UNUSED (obj);
+    return object_traits_impl< ::AbstractEmployee, id_sqlite >::id (i);
   }
 
-  // sales
+  inline
+  void access::object_traits_impl< ::Manager, id_sqlite >::
+  bind (sqlite::bind* b, id_image_type& i)
+  {
+    object_traits_impl< ::AbstractEmployee, id_sqlite >::bind (b, i);
+  }
+
+  inline
+  void access::object_traits_impl< ::Manager, id_sqlite >::
+  init (id_image_type& i, const id_type& id)
+  {
+    object_traits_impl< ::AbstractEmployee, id_sqlite >::init (i, id);
+  }
+
+  // Sales
   //
 
   inline
-  void access::object_traits_impl< ::sales, id_sqlite >::
-  erase (database& db, const object_type& obj)
+  access::object_traits_impl< ::Sales, id_sqlite >::id_type
+  access::object_traits_impl< ::Sales, id_sqlite >::
+  id (const id_image_type& i)
   {
-    callback (db, obj, callback_event::pre_erase);
-    erase (db, id (obj));
-    callback (db, obj, callback_event::post_erase);
+    return object_traits_impl< ::AbstractEmployee, id_sqlite >::id (i);
   }
 
   inline
-  void access::object_traits_impl< ::sales, id_sqlite >::
-  load_ (statements_type& sts,
-         object_type& obj,
-         bool)
+  access::object_traits_impl< ::Sales, id_sqlite >::id_type
+  access::object_traits_impl< ::Sales, id_sqlite >::
+  id (const image_type& i)
   {
-    ODB_POTENTIALLY_UNUSED (sts);
-    ODB_POTENTIALLY_UNUSED (obj);
+    return object_traits_impl< ::AbstractEmployee, id_sqlite >::id (i);
+  }
+
+  inline
+  void access::object_traits_impl< ::Sales, id_sqlite >::
+  bind (sqlite::bind* b, id_image_type& i)
+  {
+    object_traits_impl< ::AbstractEmployee, id_sqlite >::bind (b, i);
+  }
+
+  inline
+  void access::object_traits_impl< ::Sales, id_sqlite >::
+  init (id_image_type& i, const id_type& id)
+  {
+    object_traits_impl< ::AbstractEmployee, id_sqlite >::init (i, id);
   }
 }
 

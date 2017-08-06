@@ -118,27 +118,55 @@ namespace odb
     callback (database&, const object_type&, callback_event);
   };
 
-  // employee
+  // AbstractEmployee
   //
   template <>
-  struct class_traits< ::employee >
+  struct class_traits< ::AbstractEmployee >
   {
     static const class_kind kind = class_object;
   };
 
   template <>
-  class access::object_traits< ::employee >
+  class access::object_traits< ::AbstractEmployee >
   {
     public:
-    typedef ::employee object_type;
-    typedef ::employee* pointer_type;
+    typedef ::AbstractEmployee object_type;
+    typedef ::AbstractEmployee* pointer_type;
     typedef odb::pointer_traits<pointer_type> pointer_traits;
 
     static const bool polymorphic = false;
 
     typedef ::std::size_t id_type;
 
-    static const bool auto_id = false;
+    static const bool auto_id = true;
+
+    static const bool abstract = true;
+
+    static id_type
+    id (const object_type&);
+  };
+
+  // Employee
+  //
+  template <>
+  struct class_traits< ::Employee >
+  {
+    static const class_kind kind = class_object;
+  };
+
+  template <>
+  class access::object_traits< ::Employee >
+  {
+    public:
+    typedef ::Employee object_type;
+    typedef ::Employee* pointer_type;
+    typedef odb::pointer_traits<pointer_type> pointer_traits;
+
+    static const bool polymorphic = false;
+
+    typedef object_traits< ::AbstractEmployee >::id_type id_type;
+
+    static const bool auto_id = object_traits< ::AbstractEmployee >::auto_id;
 
     static const bool abstract = false;
 
@@ -160,88 +188,60 @@ namespace odb
     callback (database&, const object_type&, callback_event);
   };
 
-  // manager
+  // Manager
   //
   template <>
-  struct class_traits< ::manager >
+  struct class_traits< ::Manager >
   {
     static const class_kind kind = class_object;
   };
 
   template <>
-  class access::object_traits< ::manager >
+  class access::object_traits< ::Manager >
   {
     public:
-    typedef ::manager object_type;
-    typedef ::manager* pointer_type;
+    typedef ::Manager object_type;
+    typedef ::Manager* pointer_type;
     typedef odb::pointer_traits<pointer_type> pointer_traits;
 
     static const bool polymorphic = false;
 
-    typedef ::std::size_t id_type;
+    typedef object_traits< ::AbstractEmployee >::id_type id_type;
 
-    static const bool auto_id = false;
+    static const bool auto_id = object_traits< ::AbstractEmployee >::auto_id;
 
-    static const bool abstract = false;
+    static const bool abstract = true;
 
     static id_type
     id (const object_type&);
-
-    typedef
-    no_op_pointer_cache_traits<pointer_type>
-    pointer_cache_traits;
-
-    typedef
-    no_op_reference_cache_traits<object_type>
-    reference_cache_traits;
-
-    static void
-    callback (database&, object_type&, callback_event);
-
-    static void
-    callback (database&, const object_type&, callback_event);
   };
 
-  // sales
+  // Sales
   //
   template <>
-  struct class_traits< ::sales >
+  struct class_traits< ::Sales >
   {
     static const class_kind kind = class_object;
   };
 
   template <>
-  class access::object_traits< ::sales >
+  class access::object_traits< ::Sales >
   {
     public:
-    typedef ::sales object_type;
-    typedef ::sales* pointer_type;
+    typedef ::Sales object_type;
+    typedef ::Sales* pointer_type;
     typedef odb::pointer_traits<pointer_type> pointer_traits;
 
     static const bool polymorphic = false;
 
-    typedef ::std::size_t id_type;
+    typedef object_traits< ::AbstractEmployee >::id_type id_type;
 
-    static const bool auto_id = false;
+    static const bool auto_id = object_traits< ::AbstractEmployee >::auto_id;
 
-    static const bool abstract = false;
+    static const bool abstract = true;
 
     static id_type
     id (const object_type&);
-
-    typedef
-    no_op_pointer_cache_traits<pointer_type>
-    pointer_cache_traits;
-
-    typedef
-    no_op_reference_cache_traits<object_type>
-    reference_cache_traits;
-
-    static void
-    callback (database&, object_type&, callback_event);
-
-    static void
-    callback (database&, const object_type&, callback_event);
   };
 }
 
@@ -552,10 +552,10 @@ namespace odb
   {
   };
 
-  // employee
+  // AbstractEmployee
   //
   template <typename A>
-  struct query_columns< ::employee, id_sqlite, A >
+  struct query_columns< ::AbstractEmployee, id_sqlite, A >
   {
     // id
     //
@@ -619,39 +619,39 @@ namespace odb
   };
 
   template <typename A>
-  const typename query_columns< ::employee, id_sqlite, A >::id_type_
-  query_columns< ::employee, id_sqlite, A >::
+  const typename query_columns< ::AbstractEmployee, id_sqlite, A >::id_type_
+  query_columns< ::AbstractEmployee, id_sqlite, A >::
   id (A::table_name, "\"id\"", 0);
 
   template <typename A>
-  const typename query_columns< ::employee, id_sqlite, A >::firstname_type_
-  query_columns< ::employee, id_sqlite, A >::
+  const typename query_columns< ::AbstractEmployee, id_sqlite, A >::firstname_type_
+  query_columns< ::AbstractEmployee, id_sqlite, A >::
   firstname (A::table_name, "\"firstname\"", 0);
 
   template <typename A>
-  const typename query_columns< ::employee, id_sqlite, A >::lastname_type_
-  query_columns< ::employee, id_sqlite, A >::
+  const typename query_columns< ::AbstractEmployee, id_sqlite, A >::lastname_type_
+  query_columns< ::AbstractEmployee, id_sqlite, A >::
   lastname (A::table_name, "\"lastname\"", 0);
 
   template <typename A>
-  const typename query_columns< ::employee, id_sqlite, A >::hire_date_type_
-  query_columns< ::employee, id_sqlite, A >::
+  const typename query_columns< ::AbstractEmployee, id_sqlite, A >::hire_date_type_
+  query_columns< ::AbstractEmployee, id_sqlite, A >::
   hire_date (A::table_name, "\"hire_date\"", 0);
 
   template <typename A>
-  const typename query_columns< ::employee, id_sqlite, A >::base_rate_type_
-  query_columns< ::employee, id_sqlite, A >::
+  const typename query_columns< ::AbstractEmployee, id_sqlite, A >::base_rate_type_
+  query_columns< ::AbstractEmployee, id_sqlite, A >::
   base_rate (A::table_name, "\"base_rate\"", 0);
 
   template <typename A>
-  struct pointer_query_columns< ::employee, id_sqlite, A >:
-    query_columns< ::employee, id_sqlite, A >
+  struct pointer_query_columns< ::AbstractEmployee, id_sqlite, A >:
+    query_columns< ::AbstractEmployee, id_sqlite, A >
   {
   };
 
   template <>
-  class access::object_traits_impl< ::employee, id_sqlite >:
-    public access::object_traits< ::employee >
+  class access::object_traits_impl< ::AbstractEmployee, id_sqlite >:
+    public access::object_traits< ::AbstractEmployee >
   {
     public:
     struct id_image_type
@@ -690,13 +690,12 @@ namespace odb
       //
       double base_rate_value;
       bool base_rate_null;
-
-      std::size_t version;
     };
 
-    struct extra_statement_cache_type;
-
     using object_traits<object_type>::id;
+
+    static id_type
+    id (const id_image_type&);
 
     static id_type
     id (const image_type&);
@@ -725,220 +724,43 @@ namespace odb
 
     static void
     init (id_image_type&, const id_type&);
-
-    typedef sqlite::object_statements<object_type> statements_type;
-
-    typedef sqlite::query_base query_base_type;
-
-    static const std::size_t column_count = 5UL;
-    static const std::size_t id_column_count = 1UL;
-    static const std::size_t inverse_column_count = 0UL;
-    static const std::size_t readonly_column_count = 0UL;
-    static const std::size_t managed_optimistic_column_count = 0UL;
-
-    static const std::size_t separate_load_column_count = 0UL;
-    static const std::size_t separate_update_column_count = 0UL;
-
-    static const bool versioned = false;
-
-    static const char persist_statement[];
-    static const char find_statement[];
-    static const char update_statement[];
-    static const char erase_statement[];
-    static const char query_statement[];
-    static const char erase_query_statement[];
-
-    static const char table_name[];
-
-    static void
-    persist (database&, const object_type&);
-
-    static pointer_type
-    find (database&, const id_type&);
-
-    static bool
-    find (database&, const id_type&, object_type&);
-
-    static bool
-    reload (database&, object_type&);
-
-    static void
-    update (database&, const object_type&);
-
-    static void
-    erase (database&, const id_type&);
-
-    static void
-    erase (database&, const object_type&);
-
-    static result<object_type>
-    query (database&, const query_base_type&);
-
-    static unsigned long long
-    erase_query (database&, const query_base_type&);
-
-    public:
-    static bool
-    find_ (statements_type&,
-           const id_type*);
-
-    static void
-    load_ (statements_type&,
-           object_type&,
-           bool reload);
   };
 
-  template <>
-  class access::object_traits_impl< ::employee, id_common >:
-    public access::object_traits_impl< ::employee, id_sqlite >
-  {
-  };
-
-  // manager
+  // Employee
   //
   template <typename A>
-  struct query_columns< ::manager, id_sqlite, A >
+  struct query_columns< ::Employee, id_sqlite, A >:
+    query_columns< ::AbstractEmployee, id_sqlite, A >
   {
-    // id
+    // AbstractEmployee
     //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        ::std::size_t,
-        sqlite::id_integer >::query_type,
-      sqlite::id_integer >
-    id_type_;
-
-    static const id_type_ id;
-
-    // firstname
-    //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        ::std::string,
-        sqlite::id_text >::query_type,
-      sqlite::id_text >
-    firstname_type_;
-
-    static const firstname_type_ firstname;
-
-    // lastname
-    //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        ::std::string,
-        sqlite::id_text >::query_type,
-      sqlite::id_text >
-    lastname_type_;
-
-    static const lastname_type_ lastname;
-
-    // hire_date
-    //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        ::time_t,
-        sqlite::id_integer >::query_type,
-      sqlite::id_integer >
-    hire_date_type_;
-
-    static const hire_date_type_ hire_date;
-
-    // base_rate
-    //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        double,
-        sqlite::id_real >::query_type,
-      sqlite::id_real >
-    base_rate_type_;
-
-    static const base_rate_type_ base_rate;
+    typedef query_columns< ::AbstractEmployee, id_sqlite, A > AbstractEmployee;
   };
 
   template <typename A>
-  const typename query_columns< ::manager, id_sqlite, A >::id_type_
-  query_columns< ::manager, id_sqlite, A >::
-  id (A::table_name, "\"id\"", 0);
-
-  template <typename A>
-  const typename query_columns< ::manager, id_sqlite, A >::firstname_type_
-  query_columns< ::manager, id_sqlite, A >::
-  firstname (A::table_name, "\"firstname\"", 0);
-
-  template <typename A>
-  const typename query_columns< ::manager, id_sqlite, A >::lastname_type_
-  query_columns< ::manager, id_sqlite, A >::
-  lastname (A::table_name, "\"lastname\"", 0);
-
-  template <typename A>
-  const typename query_columns< ::manager, id_sqlite, A >::hire_date_type_
-  query_columns< ::manager, id_sqlite, A >::
-  hire_date (A::table_name, "\"hire_date\"", 0);
-
-  template <typename A>
-  const typename query_columns< ::manager, id_sqlite, A >::base_rate_type_
-  query_columns< ::manager, id_sqlite, A >::
-  base_rate (A::table_name, "\"base_rate\"", 0);
-
-  template <typename A>
-  struct pointer_query_columns< ::manager, id_sqlite, A >:
-    query_columns< ::manager, id_sqlite, A >
+  struct pointer_query_columns< ::Employee, id_sqlite, A >:
+    query_columns< ::Employee, id_sqlite, A >
   {
   };
 
   template <>
-  class access::object_traits_impl< ::manager, id_sqlite >:
-    public access::object_traits< ::manager >
+  class access::object_traits_impl< ::Employee, id_sqlite >:
+    public access::object_traits< ::Employee >
   {
     public:
-    struct id_image_type
+    typedef object_traits_impl< ::AbstractEmployee, id_sqlite >::id_image_type id_image_type;
+
+    struct image_type: object_traits_impl< ::AbstractEmployee, id_sqlite >::image_type
     {
-      long long id_value;
-      bool id_null;
-
-      std::size_t version;
-    };
-
-    struct image_type
-    {
-      // id
-      //
-      long long id_value;
-      bool id_null;
-
-      // firstname
-      //
-      details::buffer firstname_value;
-      std::size_t firstname_size;
-      bool firstname_null;
-
-      // lastname
-      //
-      details::buffer lastname_value;
-      std::size_t lastname_size;
-      bool lastname_null;
-
-      // hire_date
-      //
-      long long hire_date_value;
-      bool hire_date_null;
-
-      // base_rate
-      //
-      double base_rate_value;
-      bool base_rate_null;
-
       std::size_t version;
     };
 
     struct extra_statement_cache_type;
 
     using object_traits<object_type>::id;
+
+    static id_type
+    id (const id_image_type&);
 
     static id_type
     id (const image_type&);
@@ -993,7 +815,7 @@ namespace odb
     static const char table_name[];
 
     static void
-    persist (database&, const object_type&);
+    persist (database&, object_type&);
 
     static pointer_type
     find (database&, const id_type&);
@@ -1031,156 +853,43 @@ namespace odb
   };
 
   template <>
-  class access::object_traits_impl< ::manager, id_common >:
-    public access::object_traits_impl< ::manager, id_sqlite >
+  class access::object_traits_impl< ::Employee, id_common >:
+    public access::object_traits_impl< ::Employee, id_sqlite >
   {
   };
 
-  // sales
+  // Manager
   //
   template <typename A>
-  struct query_columns< ::sales, id_sqlite, A >
+  struct query_columns< ::Manager, id_sqlite, A >:
+    query_columns< ::AbstractEmployee, id_sqlite, A >
   {
-    // id
+    // AbstractEmployee
     //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        ::std::size_t,
-        sqlite::id_integer >::query_type,
-      sqlite::id_integer >
-    id_type_;
-
-    static const id_type_ id;
-
-    // firstname
-    //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        ::std::string,
-        sqlite::id_text >::query_type,
-      sqlite::id_text >
-    firstname_type_;
-
-    static const firstname_type_ firstname;
-
-    // lastname
-    //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        ::std::string,
-        sqlite::id_text >::query_type,
-      sqlite::id_text >
-    lastname_type_;
-
-    static const lastname_type_ lastname;
-
-    // hire_date
-    //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        ::time_t,
-        sqlite::id_integer >::query_type,
-      sqlite::id_integer >
-    hire_date_type_;
-
-    static const hire_date_type_ hire_date;
-
-    // base_rate
-    //
-    typedef
-    sqlite::query_column<
-      sqlite::value_traits<
-        double,
-        sqlite::id_real >::query_type,
-      sqlite::id_real >
-    base_rate_type_;
-
-    static const base_rate_type_ base_rate;
+    typedef query_columns< ::AbstractEmployee, id_sqlite, A > AbstractEmployee;
   };
 
   template <typename A>
-  const typename query_columns< ::sales, id_sqlite, A >::id_type_
-  query_columns< ::sales, id_sqlite, A >::
-  id (A::table_name, "\"id\"", 0);
-
-  template <typename A>
-  const typename query_columns< ::sales, id_sqlite, A >::firstname_type_
-  query_columns< ::sales, id_sqlite, A >::
-  firstname (A::table_name, "\"firstname\"", 0);
-
-  template <typename A>
-  const typename query_columns< ::sales, id_sqlite, A >::lastname_type_
-  query_columns< ::sales, id_sqlite, A >::
-  lastname (A::table_name, "\"lastname\"", 0);
-
-  template <typename A>
-  const typename query_columns< ::sales, id_sqlite, A >::hire_date_type_
-  query_columns< ::sales, id_sqlite, A >::
-  hire_date (A::table_name, "\"hire_date\"", 0);
-
-  template <typename A>
-  const typename query_columns< ::sales, id_sqlite, A >::base_rate_type_
-  query_columns< ::sales, id_sqlite, A >::
-  base_rate (A::table_name, "\"base_rate\"", 0);
-
-  template <typename A>
-  struct pointer_query_columns< ::sales, id_sqlite, A >:
-    query_columns< ::sales, id_sqlite, A >
+  struct pointer_query_columns< ::Manager, id_sqlite, A >:
+    query_columns< ::Manager, id_sqlite, A >
   {
   };
 
   template <>
-  class access::object_traits_impl< ::sales, id_sqlite >:
-    public access::object_traits< ::sales >
+  class access::object_traits_impl< ::Manager, id_sqlite >:
+    public access::object_traits< ::Manager >
   {
     public:
-    struct id_image_type
+    typedef object_traits_impl< ::AbstractEmployee, id_sqlite >::id_image_type id_image_type;
+
+    struct image_type: object_traits_impl< ::AbstractEmployee, id_sqlite >::image_type
     {
-      long long id_value;
-      bool id_null;
-
-      std::size_t version;
     };
-
-    struct image_type
-    {
-      // id
-      //
-      long long id_value;
-      bool id_null;
-
-      // firstname
-      //
-      details::buffer firstname_value;
-      std::size_t firstname_size;
-      bool firstname_null;
-
-      // lastname
-      //
-      details::buffer lastname_value;
-      std::size_t lastname_size;
-      bool lastname_null;
-
-      // hire_date
-      //
-      long long hire_date_value;
-      bool hire_date_null;
-
-      // base_rate
-      //
-      double base_rate_value;
-      bool base_rate_null;
-
-      std::size_t version;
-    };
-
-    struct extra_statement_cache_type;
 
     using object_traits<object_type>::id;
+
+    static id_type
+    id (const id_image_type&);
 
     static id_type
     id (const image_type&);
@@ -1209,73 +918,68 @@ namespace odb
 
     static void
     init (id_image_type&, const id_type&);
+  };
 
-    typedef sqlite::object_statements<object_type> statements_type;
+  // Sales
+  //
+  template <typename A>
+  struct query_columns< ::Sales, id_sqlite, A >:
+    query_columns< ::AbstractEmployee, id_sqlite, A >
+  {
+    // AbstractEmployee
+    //
+    typedef query_columns< ::AbstractEmployee, id_sqlite, A > AbstractEmployee;
+  };
 
-    typedef sqlite::query_base query_base_type;
-
-    static const std::size_t column_count = 5UL;
-    static const std::size_t id_column_count = 1UL;
-    static const std::size_t inverse_column_count = 0UL;
-    static const std::size_t readonly_column_count = 0UL;
-    static const std::size_t managed_optimistic_column_count = 0UL;
-
-    static const std::size_t separate_load_column_count = 0UL;
-    static const std::size_t separate_update_column_count = 0UL;
-
-    static const bool versioned = false;
-
-    static const char persist_statement[];
-    static const char find_statement[];
-    static const char update_statement[];
-    static const char erase_statement[];
-    static const char query_statement[];
-    static const char erase_query_statement[];
-
-    static const char table_name[];
-
-    static void
-    persist (database&, const object_type&);
-
-    static pointer_type
-    find (database&, const id_type&);
-
-    static bool
-    find (database&, const id_type&, object_type&);
-
-    static bool
-    reload (database&, object_type&);
-
-    static void
-    update (database&, const object_type&);
-
-    static void
-    erase (database&, const id_type&);
-
-    static void
-    erase (database&, const object_type&);
-
-    static result<object_type>
-    query (database&, const query_base_type&);
-
-    static unsigned long long
-    erase_query (database&, const query_base_type&);
-
-    public:
-    static bool
-    find_ (statements_type&,
-           const id_type*);
-
-    static void
-    load_ (statements_type&,
-           object_type&,
-           bool reload);
+  template <typename A>
+  struct pointer_query_columns< ::Sales, id_sqlite, A >:
+    query_columns< ::Sales, id_sqlite, A >
+  {
   };
 
   template <>
-  class access::object_traits_impl< ::sales, id_common >:
-    public access::object_traits_impl< ::sales, id_sqlite >
+  class access::object_traits_impl< ::Sales, id_sqlite >:
+    public access::object_traits< ::Sales >
   {
+    public:
+    typedef object_traits_impl< ::AbstractEmployee, id_sqlite >::id_image_type id_image_type;
+
+    struct image_type: object_traits_impl< ::AbstractEmployee, id_sqlite >::image_type
+    {
+    };
+
+    using object_traits<object_type>::id;
+
+    static id_type
+    id (const id_image_type&);
+
+    static id_type
+    id (const image_type&);
+
+    static bool
+    grow (image_type&,
+          bool*);
+
+    static void
+    bind (sqlite::bind*,
+          image_type&,
+          sqlite::statement_kind);
+
+    static void
+    bind (sqlite::bind*, id_image_type&);
+
+    static bool
+    init (image_type&,
+          const object_type&,
+          sqlite::statement_kind);
+
+    static void
+    init (object_type&,
+          const image_type&,
+          database*);
+
+    static void
+    init (id_image_type&, const id_type&);
   };
 
   // position
@@ -1359,11 +1063,13 @@ namespace odb
 
   // department
   //
-  // employee
+  // AbstractEmployee
   //
-  // manager
+  // Employee
   //
-  // sales
+  // Manager
+  //
+  // Sales
   //
 }
 

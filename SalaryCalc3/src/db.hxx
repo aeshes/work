@@ -39,6 +39,9 @@ public:
 
 public:
     static int getWorkExperienceByID(int id);
+    static double getExtraPayLimitByPosition(int position);
+    static int getPositionIDByName(const QString& name);
+    static double getExperienceCoeffByPosition(int position);
 };
 
 #endif // DB_HXX

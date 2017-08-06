@@ -1,47 +1,55 @@
 #include "employee.hxx"
+#include "db.hxx"
 
-double abstract_employee::getBaseRate() const
+double AbstractEmployee::getBaseRate() const
 {
     return base_rate;
 }
 
-int abstract_employee::getWorkExperience() const
+int AbstractEmployee::getWorkExperience() const
 {
     return DBProcedures::getWorkExperienceByID(id);
 }
 
-double abstract_employee::getManagementCoeff() const
-{
-    return 0;
-}
-
-double abstract_employee::getExtraPayLimit() const
-{
-    return 0;
-}
-
-double abstract_employee::getExperienceCoeff() const
-{
-    return 0;
-}
-
-std::string abstract_employee::name() const
+std::string AbstractEmployee::name() const
 {
     return firstname + " " + lastname;
 }
 
 
-double employee::salary(AbstractDispatcher & dispatcher)
+int Employee::getWorkExperience() const
+{
+    return DBProcedures::getWorkExperienceByID(id);
+}
+
+double Employee::getManagementCoeff() const
+{
+    return 0;   // Always 0, Employee doesnt have other employees
+}
+
+double Employee::getExtraPayLimit() const
+{
+    int position = DBProcedures::getPositionIDByName("Employee");
+    return DBProcedures::getExtraPayLimitByPosition(position);
+}
+
+double Employee::getExperienceCoeff() const
+{
+    int position = DBProcedures::getPositionIDByName("Employee");
+    return DBProcedures::getExperienceCoeffByPosition(position);
+}
+
+double Employee::salary(AbstractDispatcher & dispatcher)
 {
     return dispatcher.dispatch(*this);
 }
 
-double manager::salary(AbstractDispatcher & dispatcher)
+double Manager::salary(AbstractDispatcher & dispatcher)
 {
     return dispatcher.dispatch(*this);
 }
 
-double sales::salary(AbstractDispatcher & dispatcher)
+double Sales::salary(AbstractDispatcher & dispatcher)
 {
     return dispatcher.dispatch(*this);
 }

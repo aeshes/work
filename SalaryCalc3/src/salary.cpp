@@ -1,6 +1,6 @@
 #include "salary.hxx"
 
-double Dispatcher::dispatch(employee &emp)
+double Dispatcher::dispatch(Employee &emp)
 {
     double extra_pay_percents = emp.getExperienceCoeff() * emp.getWorkExperience();
     double extra_pay = 0;
@@ -15,12 +15,12 @@ double Dispatcher::dispatch(employee &emp)
     return emp.getBaseRate() + extra_pay;
 }
 
-double Dispatcher::dispatch(manager &man)
+double Dispatcher::dispatch(Manager &man)
 {
     return 0;
 }
 
-double Dispatcher::dispatch(sales &sal)
+double Dispatcher::dispatch(Sales &sal)
 {
     return 0.0;
 }
