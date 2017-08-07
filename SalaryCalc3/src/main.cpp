@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     std::shared_ptr<odb::database> db(new odb::sqlite::database("data.db"));
 
-   employee_repository<Employee> repository(db);
+   EmployeeRepository repository(db);
    Dispatcher dispatcher;
 
    auto e = repository.select(2);
