@@ -1,0 +1,13 @@
+floor #1:
+room 0001
+room 0100
+room 1000
+room 0110
+room 0101
+room 0111
+room 1000
+room 1010
+room 1100
+room 0011
+room 1110
+room 1001
