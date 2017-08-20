@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
 #include "file.h"
 
@@ -22,9 +23,8 @@ const std::map<std::string, int> digits =
 
 int main()
 {
-	directory dir(working_directory);
-	for (file f = dir.next(); f.exists(); f = dir.next())
-	{
-		f.print();
-	}
+	std::unique_ptr<bin_file> bin(new bin_file(working_directory + "Floor1.txt"));
+	bin->read();
+	bin->sort();
+	bin->dump("Sorted1.txt");
 }

@@ -10,7 +10,7 @@ extract_using_regex(const std::string& _data, const std::string& _regex)
 	{
 		return match.str(1);
 	}
-	return "";
+	return std::string();
 }
 
 std::string
@@ -22,20 +22,16 @@ extract_floor_number(const std::string& _s)
 std::string
 extract_room_number(const std::string& _s)
 {
-	return extract_using_regex(_s, "^room[\\s]+([[:digit:]]+)[\\s]*$");			/* The "room NUM" format */
+	return extract_using_regex(_s, "^room[\\s]+([[:digit:]]+)[\\s]*$");	/* The "room NUM" format */
 }
 
 
-std::string
-entry::data()
-{
-	return extract_room_number(_data);
-}
 
 file::file(const std::string& _filepath)
-	: _filepath(_filepath)
+	: _filepath(_filepath), _data(new std::vector<std::string>())
 {
 	_filestream.open(_filepath, std::ios::in);
+	std::getline(_filestream, _firstline);
 }
 
 std::string
@@ -59,27 +55,36 @@ file::print()
 	}
 }
 
-directory::directory(const std::string& _path)
-	: _dirpath(_path)
+void
+file::sort()
 {
-
+	std::sort(_data->begin(), _data->end());
 }
 
-std::string
-directory::next_filename()
+void
+file::dump(const std::string& _out)
 {
-	static std::string preffix = "floor";
-	static std::string suffix = ".txt";
-	static int current = 1;
-
-	std::string fname = preffix + std::to_string(current) + suffix;
-	++current;
-	return fname;
+	std::ofstream out(_out, std::ios::trunc);
+	for (const auto& room : *_data)
+	{
+		out << room << std::endl;
+	}
 }
 
-file
-directory::next()
+
+bin_file::bin_file(const std::string& _fname)
+	: file(_fname)
 {
-	std::string fname = next_filename();
-	return file(_dirpath + fname);
+	
+}
+
+void
+bin_file::read()
+{
+	std::string line;
+	while (std::getline(_filestream, line))
+	{
+		std::string room = extract_room_number(line);
+		_data->push_back(room);
+	}
 }

@@ -1,24 +1,19 @@
 #ifndef __FILE_H
 #define __FILE_H
 
+#include <vector>
 #include <string>
 #include <regex>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
+#include <bitset>
+#include <memory>
 
 
 std::string extract_floor_number(const std::string& s);
 std::string extract_room_number(const std::string& s);
 
-class entry
-{
-	std::string _data;
-
-public:
-	entry(const std::string& line)
-		: _data(line) {}
-	std::string data();
-};
 
 class file
 {
@@ -28,20 +23,36 @@ public:
 	bool exists();
 	void print();
 
-private:
+	virtual void read() = 0;
+	virtual void sort();
+	virtual void dump(const std::string& _out);
+
+protected:
 	std::string   _filepath;
 	std::ifstream _filestream;
+	std::string   _firstline;
+	std::unique_ptr<std::vector<std::string>> _data;
 };
 
-class directory
+class bin_file : public file
 {
 public:
-	directory(const std::string& _dirpath);
-	file next();
+	bin_file(const std::string& _fname);
+	void read() override;
+};
 
-private:
-	std::string _dirpath;
-	std::string next_filename();
+class dec_file : public file
+{
+public:
+	dec_file(const std::string& _fname);
+	void read() override;
+};
+
+class word_file : public file
+{
+public:
+	word_file(const std::string& _fname);
+	void read() override;
 };
 
 
