@@ -1,5 +1,7 @@
 #include "file.h"
 
+#include <map>
+
 static std::string
 extract_using_regex(const std::string& _data, const std::string& _regex)
 {
@@ -87,4 +89,63 @@ bin_file::read()
 		std::string room = extract_room_number(line);
 		_data->push_back(room);
 	}
+}
+
+dec_file::dec_file(const std::string& fname)
+	: file(fname)
+{
+
+}
+
+void
+dec_file::read()
+{
+	std::string line;
+	while (std::getline(_filestream, line))
+	{
+		std::string room = extract_room_number(line);
+		_data->push_back(room);
+	}
+}
+
+word_file::word_file(const std::string& fname)
+	: file(fname)
+{
+
+}
+
+void
+word_file::read()
+{
+	std::string line;
+	while (std::getline(_filestream, line))
+	{
+		std::string room = extract_using_regex(line, "^room[\\s]+([\\w]+)[\\s]*[;]$");
+		_data->push_back(room);
+	}
+}
+
+const std::map<std::string, int> digits =
+{
+	{ "one",    1 },
+	{ "two",    2 },
+	{ "three",  3 },
+	{ "four",   4 },
+	{ "five",   5 },
+	{ "six",    6 },
+	{ "seven",  7 },
+	{ "eight",  8 },
+	{ "nine",   9 },
+	{ "ten",   10 }
+};
+
+inline bool compare(const std::string& lhs, const std::string& rhs)
+{
+	return digits.at(lhs) < digits.at(rhs);
+}
+
+void
+word_file::sort()
+{
+	std::sort(_data->begin(), _data->end(), compare);
 }

@@ -53,6 +53,7 @@ class word_file : public file
 public:
 	word_file(const std::string& _fname);
 	void read() override;
+	void sort() override;
 };
 
 
