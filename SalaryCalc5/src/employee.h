@@ -10,10 +10,11 @@ public:
 class Employee : public IEmployee
 {
 public:
+	Employee() = default;
 	Employee(unsigned id);
 	double salary() const override;
 
-private:
+protected:
 	double baseRate() const;
 	double workExperience() const;
 	double extraPercents() const;

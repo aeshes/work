@@ -19,3 +19,18 @@ DBConnection::DBConnection()
 }
 
 QSqlDatabase DBConnection::db;
+
+
+namespace db
+{
+	QVariant selectSingleFieldFromTableByID(QString const& table, QString const& field, qint64 id)
+	{
+		QSqlQuery q("SELECT " + field + " FROM " + table + " WHERE id = " + QString::number(id));
+
+		if (q.next())
+		{
+			return q.value(0);
+		}
+		return QVariant();
+	}
+}

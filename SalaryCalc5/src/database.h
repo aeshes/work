@@ -2,10 +2,10 @@
 #define DATABASE_H
 
 #include <QtSql>
+#include <QVariant>
 
 class DBConnection
 {
-		static QSqlDatabase db;
 public:
 	static DBConnection& connect()
 	{
@@ -17,6 +17,13 @@ private:
 	DBConnection();
 	DBConnection(const DBConnection&) = delete;
 	DBConnection& operator=(const DBConnection&) = delete;
+
+	static QSqlDatabase db;
 };
+
+namespace db
+{
+	QVariant selectSingleFieldFromTableByID(QString const& table, QString const& field, qint64 id);
+}
 
 #endif

@@ -3,6 +3,9 @@
 #include <QtSql>
 #include <QString>
 
+#include "database.h"
+
+
 Employee::Employee(unsigned id)
 	: id(id)
 {
@@ -37,12 +40,7 @@ double Employee::salary() const
 
 double Employee::baseRate() const
 {
-	QSqlQuery q("SELECT base_rate FROM employee WHERE id = " + QString::number(id));
-	if (q.next())
-	{
-		return q.value(0).toInt();
-	}
-	return 0.0;
+	return db::selectSingleFieldFromTableByID("employee", "base_rate", id).toDouble();
 }
 
 double Employee::workExperience() const
