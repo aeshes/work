@@ -4,13 +4,13 @@
 
 using ::testing::Eq;
 
-TEST(EmployeeSalary, SalaryForHaruhiReturnsRightValue)
+TEST(EmployeeSalary, SalaryForHaruhi)
 {
 	Employee employee(1);
 	ASSERT_THAT(employee.salary(), Eq(50.0));
 }
 
-TEST(EmployeeSalary, SalaryForShanaReturnsRightValue)
+TEST(EmployeeSalary, SalaryForShana)
 {
 	Employee employee(3);
 	ASSERT_THAT(employee.salary(), Eq(56.0));
@@ -25,6 +25,7 @@ public:
 	using Employee::workExperience;
 	using Employee::extraPercents;
 	using Employee::percentsPerYear;
+	using Employee::extraPay;
 };
 
 TEST(Employee, BaseRateForHaruhi)
@@ -51,3 +52,8 @@ TEST(Employee, PercentsPerYearForShana)
 	ASSERT_THAT(e.percentsPerYear(), Eq(0.03));
 }
 
+TEST(Employee, ExtraPayForShana)
+{
+	EmployeeMethods e(3);
+	ASSERT_THAT(e.extraPay(), Eq(6.0));
+}

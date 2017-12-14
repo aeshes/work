@@ -19,7 +19,7 @@ protected:
 	double workExperience() const;
 	double extraPercents() const;
 	double percentsPerYear() const;
-	double extraPay(double base, double percents) const;
+	double extraPay() const;
 
 	unsigned id;
 };

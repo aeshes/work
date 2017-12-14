@@ -12,14 +12,16 @@ Employee::Employee(unsigned id)
 
 }
 
-double Employee::extraPay(double baseRate, double extraPayPercents) const
+double Employee::extraPay() const
 {
 	static const double EXTRA_PAY_LIMIT = 0.3;
 
-	if (extraPayPercents < EXTRA_PAY_LIMIT)
-		return baseRate * extraPayPercents;
+	const double percents = extraPercents();
+
+	if (percents < EXTRA_PAY_LIMIT)
+		return baseRate() * percents;
 	else
-		return baseRate * EXTRA_PAY_LIMIT;
+		return baseRate() * EXTRA_PAY_LIMIT;
 }
 
 double Employee::percentsPerYear() const
@@ -34,8 +36,7 @@ double Employee::extraPercents() const
 
 double Employee::salary() const
 {
-	double rate = baseRate();
-	return rate + extraPay(rate, extraPercents());
+	return baseRate() + extraPay();
 }
 
 double Employee::baseRate() const
