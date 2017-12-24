@@ -33,4 +33,15 @@ namespace db
 		}
 		return QVariant();
 	}
+
+	double selectExperienceByID(qint64 id)
+	{
+		QSqlQuery q("SELECT DATE('now') - (SELECT hire_date FROM employee " \
+			" WHERE id = " + QString::number(id) + ")");
+		if (q.next())
+		{
+			return q.value(0).toInt();
+		}
+		return 0.0;
+	}
 }

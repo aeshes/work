@@ -1,23 +1,28 @@
 #include "gmock\gmock.h"
-#include "employee.h"
-
+#include "composite.h"
 
 using ::testing::Eq;
 
-TEST(EmployeeSalary, SalaryForHaruhi)
+TEST(EmployeeHaruhi, SalaryForHaruhi)
 {
 	Employee employee(1);
 	ASSERT_THAT(employee.salary(), Eq(50.0));
 }
 
-TEST(EmployeeSalary, SalaryForShana)
+TEST(EmployeeAsuka, SalaryForAsuka)
+{
+	Employee employee(2);
+	ASSERT_THAT(employee.salary(), Eq(54.5));
+}
+
+TEST(EmployeeShana, SalaryForShana)
 {
 	Employee employee(3);
 	ASSERT_THAT(employee.salary(), Eq(56.0));
 }
 
 
-class EmployeeMethods : public Employee
+class EmployeeStub : public Employee
 {
 public:
 	using Employee::Employee;
@@ -28,32 +33,32 @@ public:
 	using Employee::extraPay;
 };
 
-TEST(Employee, BaseRateForHaruhi)
+TEST(EmployeeHaruhi, BaseRateForHaruhi)
 {
-	EmployeeMethods e(1);
+	EmployeeStub e(1);
 	ASSERT_THAT(e.baseRate(), Eq(50.0));
 }
 
-TEST(Employee, WorkExpForShana)
+TEST(EmployeeShana, WorkExpForShana)
 {
-	EmployeeMethods e(3);
+	EmployeeStub e(3);
 	ASSERT_THAT(e.workExperience(), Eq(4));
 }
 
-TEST(Employee, ExtraPercentsForShana)
+TEST(EmployeeShana, ExtraPercentsForShana)
 {
-	EmployeeMethods e(3);
+	EmployeeStub e(3);
 	ASSERT_THAT(e.extraPercents(), Eq(0.12));
 }
 
-TEST(Employee, PercentsPerYearForShana)
+TEST(EmployeeShana, PercentsPerYearForShana)
 {
-	EmployeeMethods e(3);
+	EmployeeStub e(3);
 	ASSERT_THAT(e.percentsPerYear(), Eq(0.03));
 }
 
-TEST(Employee, ExtraPayForShana)
+TEST(EmployeeShana, ExtraPayForShana)
 {
-	EmployeeMethods e(3);
+	EmployeeStub e(3);
 	ASSERT_THAT(e.extraPay(), Eq(6.0));
 }

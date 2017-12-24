@@ -4,6 +4,7 @@
 #include <QtSql>
 #include <QVariant>
 
+
 class DBConnection
 {
 public:
@@ -24,6 +25,8 @@ private:
 namespace db
 {
 	QVariant selectSingleFieldFromTableByID(QString const& table, QString const& field, qint64 id);
+
+	double selectExperienceByID(qint64 id);
 }
 
 #endif

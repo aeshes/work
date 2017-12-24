@@ -2,6 +2,7 @@
 
 #include "gmock\gmock.h"
 #include "database.h"
+#include "composite.h"
 
 #pragma comment(lib, "gmock.lib")
 
